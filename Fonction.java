@@ -7,7 +7,7 @@ public class Fonction {
     }
 
     public static String[][] creePlateau(int x, int y){
-        String[][] tab=new String[x+1][y+2];
+        String[][] tab=new String[x+1][y+1];
 
         tab[0][0]="x/y";
         for (int i = 1; i < tab.length; i++) {
@@ -18,7 +18,12 @@ public class Fonction {
                     tab[j][0]=" "+(j-1)+"|";
                 }
                 if(i!=0 ){
-                    tab[i][j]="□ ";
+                    if((i+j)%2==0){
+                        tab[i][j]=" ■";
+                    }
+                    else{
+                        tab[i][j]=" □";
+                    }
                 }
                 
                 
