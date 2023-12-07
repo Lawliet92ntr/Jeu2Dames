@@ -10,19 +10,19 @@ public class Fonction {
         String[][] tab=new String[x+1][y+1];
 
         tab[0][0]="x/y";
-        for (int i = 1; i < tab.length; i++) {
+        for (int ligne = 1; ligne < tab.length; ligne++) {
             
-            tab[0][i]=" "+(i-1);
-            for (int j = 1; j < tab[i].length; j++) {
-                if((i-1)==0){
-                    tab[j][0]=" "+(j-1)+"|";
+            tab[0][ligne]=" "+(ligne-1);
+            for (int col = 1; col < tab[ligne].length; col++) {
+                if((ligne-1)==0){
+                    tab[col][0]=" "+(col-1)+"|";
                 }
-                if(i!=0 ){
-                    if((i+j)%2==0){
-                        tab[i][j]=" ■";
+                if(ligne!=0 ){
+                    if((ligne+col)%2==0){
+                        tab[ligne][col]=" ■";
                     }
                     else{
-                        tab[i][j]=" □";
+                        tab[ligne][col]=" □";
                     }
                 }
                 
