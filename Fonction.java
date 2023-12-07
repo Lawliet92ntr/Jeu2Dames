@@ -2,7 +2,7 @@ public class Fonction {
     
     public static void main(String[] args) {
         String[][] plateau=creePlateau(10, 10);
-        
+        plateau=initPions(plateau);
         afficheTableau(plateau);
     }
 
@@ -19,7 +19,7 @@ public class Fonction {
                 }
                 if(ligne!=0 ){
                     if((ligne+col)%2==0){
-                        tab[ligne][col]=" ■";
+                        tab[ligne][col]=" ■"; /*⛂⛀ */
                     }
                     else{
                         tab[ligne][col]=" □";
@@ -40,5 +40,28 @@ public class Fonction {
             }
             System.out.println();
         }
+    }
+
+
+    public static String[][] initPions(String[][] tab){
+        for (int ligne = 1; ligne < tab.length; ligne++) {
+            
+            for (int col = 1; col < tab[ligne].length; col++) {
+                
+                if(ligne!=0 ){
+                    if((ligne+col)%2==0 && ligne <5){
+                        tab[ligne][col]=" ⛂"; /*⛂⛀ */
+                    }
+                    else if((ligne+col)%2==0 && ligne >6){
+                        tab[ligne][col]=" ⛀";
+                    }
+                }
+                
+                
+            }
+        }
+        
+
+        return tab;
     }
 }
