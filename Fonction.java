@@ -105,8 +105,14 @@ public class Fonction {
 
 }
 
+/*public static boolean prisePion(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee){
+    boolean possibleDePrendre=false;
 
+    if((plateau[xArrivee][yArrivee].equals(" ⛂")||plateau[xArrivee][yArrivee].equals(" ⛀") )&& ((plateau[xArrivee-1][yArrivee+1].equals(" ■")||plateau[xArrivee-1][yArrivee+1].equals(" □"))||() ){
 
+    }
+}
+*/
 
 public static boolean coordValides(int x, int y, String[][] plateau) {
     return x >= 0 && x < plateau.length && y >= 0 && y < plateau[0].length;
