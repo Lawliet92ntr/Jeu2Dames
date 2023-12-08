@@ -65,3 +65,47 @@ public class Fonction {
         return tab;
     }
 }
+
+
+/*
+ * Fonction de deplacement : Younes
+ * 1: Vérifie si les coordonnées sont valides.
+ * 2: Vérifie si le déplacement est en diagonale et d'une case.
+ * 3: Vérifie si la case d'arrivée est vide.
+ * 4: Effectue le déplacement.
+ */
+
+ public static void deplacerPion(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee) {
+    if (coordValides(xDepart, yDepart, plateau) && coordValides(xArrivee, yArrivee, plateau)) {
+        if (Math.abs(xArrivee - xDepart) == 1 && Math.abs(yArrivee - yDepart) == 1) {
+            if (plateau[xArrivee][yArrivee].equals("0")) {
+                plateau[xArrivee][yArrivee] = plateau[xDepart][yDepart];
+                plateau[xDepart][yDepart] = "0";
+            } 
+            else{
+                System.out.println("La case n'est pas vide.");
+            }
+        } 
+        else{
+            System.out.println("Le déplacement doit être en diagonale et d'une case.");
+        }
+    } 
+    else {
+        System.out.println("Coordonnées invalides.");
+    }
+}
+
+public static boolean coordValides(int x, int y, String[][] plateau) {
+    return x >= 0 && x < plateau.length && y >= 0 && y < plateau[0].length;
+}
+
+public static void afficherPlateau(String[][] plateau) {
+    for (String[] ligne : plateau) {
+        for (String casePlateau : ligne) {
+            System.out.print(casePlateau + " ");
+        }
+        System.out.println();
+    }
+    System.out.println();
+}
+
