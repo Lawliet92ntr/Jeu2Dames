@@ -9,8 +9,9 @@ public class Menu {
         do {
             System.out.println("===== MENU PRINCIPAL =====");
             System.out.println("1. Nouvelle partie");
-            System.out.println("2. Aide");
-            System.out.println("3. Quitter");
+            System.out.println("2. Charger une partie");
+            System.out.println("3. Aide");
+            System.out.println("4. Quitter");
 
             System.out.print("Entrez votre choix : ");
             choix = scanner.nextInt();
@@ -42,10 +43,14 @@ public class Menu {
                     break;
 
                 case 2:
-                    System.out.println("Affichage de l'aide...");
+                    System.out.println("Chargement d'une partie");
                     break;
 
                 case 3:
+                    System.out.println("Affichage de l'aide...");
+                    break;
+
+                case 4:
                     System.out.println("Deja ? :-( ... Au revoir !");
                     break;
 
@@ -54,7 +59,7 @@ public class Menu {
                     break;
             }
 
-        } while (choix != 4);
+        } while (choix != 5);
 
         scanner.close();
     }

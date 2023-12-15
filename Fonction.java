@@ -1,23 +1,43 @@
-public class Fonction {
+import java.util.Scanner;
+
+class Fonction {
     
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
         String[][] plateau=creePlateau(10, 10);
         plateau=initPions(plateau);
         
         
+        for(int boucletest=0 ; boucletest <20 ; boucletest++){    
+        
         afficheTableau(plateau);
+
+        System.out.println("x1");
+        int xDepart = scanner.nextInt();
+                System.out.println("y1");
+        int yDepart = scanner.nextInt();
+                System.out.println("x2");
+        int xArrivee = scanner.nextInt();
+                System.out.println("y2");
+        int yArrivee = scanner.nextInt();
+        
+        deplacerPion(plateau,xDepart,yDepart,xArrivee,yArrivee);
+        afficheTableau(plateau);
+
+        }
+
+        
+
     }
 
     public static String[][] creePlateau(int x, int y){
         String[][] tab=new String[x][y];
-
         
         for (int ligne = 0; ligne < tab.length; ligne++) {
             
-            
             for (int col = 0; col < tab[ligne].length; col++) {
-                
-                
+                 
                     if((ligne+col)%2==0){
                         tab[ligne][col]=" ■"; /*⛂⛀ */
                     }
@@ -25,11 +45,8 @@ public class Fonction {
                         tab[ligne][col]=" □";
                     }
                 
-                
-                
             }
         }
-
         return tab;
     }
 
@@ -47,11 +64,8 @@ public class Fonction {
             System.out.print(ligne+"|");
 
             for (int col = 0; col < t.length; col++) {
-
                 System.out.print(t[ligne][col]);
-
             }
-
             System.out.println();
         }
         
@@ -67,12 +81,12 @@ public class Fonction {
             for (int col = 0; col < tab[ligne].length; col++) {
                 
                 
-                    if((ligne+col)%2==0 && ligne <4){
+                    if((ligne+col)%2!=0 && ligne <4){
     
-                        tab[ligne][col]=ANSI_RED+" ⛂"+ANSI_RESET; /*⛂⛀ */
+                        tab[ligne][col]=ANSI_RED+" ⛂"+ANSI_RESET; /* ⛂ ⛀ */
                     
                     }
-                    else if((ligne+col)%2==0 && ligne >5){
+                    else if((ligne+col)%2!=0 && ligne >5){
                         
                         tab[ligne][col]=ANSI_BLUE+" ⛀"+ANSI_RESET;
                     
@@ -97,6 +111,7 @@ public class Fonction {
  * 4: Effectue le déplacement.
  */
 
+
  public static void deplacerPion(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee) {
    
     String transi=plateau[xArrivee][yArrivee];
@@ -105,7 +120,7 @@ public class Fonction {
 
 }
 
-/*public static boolean prisePion(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee){
+/*public static boolean prisePion(String[][] plateau, int xDepart, int xDepart, int xArrivee, int yArrivee){
     boolean possibleDePrendre=false;
 
     if((plateau[xArrivee][yArrivee].equals(" ⛂")||plateau[xArrivee][yArrivee].equals(" ⛀") )&& ((plateau[xArrivee-1][yArrivee+1].equals(" ■")||plateau[xArrivee-1][yArrivee+1].equals(" □"))||() ){
@@ -115,12 +130,17 @@ public class Fonction {
 */
 
 public static boolean coordValides(int x, int y, String[][] plateau) {
+    if (x<) {
+        
+    }
     return x >= 0 && x < plateau.length && y >= 0 && y < plateau[0].length;
 }
 
-/*public static int[] deplacementPossible(String[][] plateau,int xPion, int yPion){
+public static int[] deplacementPossible(String[][] plateau,int xDepart, int yDepart, int xArrivee, int yArrivee){
 
-}*/
+
+
+}
 
 
 
