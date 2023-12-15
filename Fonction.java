@@ -1,6 +1,8 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
-class Fonction {
+public class Fonction {
     
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -39,10 +41,10 @@ class Fonction {
             for (int col = 0; col < tab[ligne].length; col++) {
                  
                     if((ligne+col)%2==0){
-                        tab[ligne][col]=" ■"; /*⛂⛀ */
+                        tab[ligne][col]=" □"; /*⛂⛀ */
                     }
                     else{
-                        tab[ligne][col]=" □";
+                        tab[ligne][col]=" ■";
                     }
                 
             }
@@ -120,23 +122,6 @@ class Fonction {
 
 }
 
-/*public static boolean prisePion(String[][] plateau, int xDepart, int xDepart, int xArrivee, int yArrivee){
-    boolean possibleDePrendre=false;
-
-    if((plateau[xArrivee][yArrivee].equals(" ⛂")||plateau[xArrivee][yArrivee].equals(" ⛀") )&& ((plateau[xArrivee-1][yArrivee+1].equals(" ■")||plateau[xArrivee-1][yArrivee+1].equals(" □"))||() ){
-
-    }
-}
-*/
-
-public static boolean coordValides(int x, int y, String[][] plateau) {
-    if (x<) {
-        
-    }
-    return x >= 0 && x < plateau.length && y >= 0 && y < plateau[0].length;
-}
-
-public static int[] deplacementPossible(String[][] plateau,int xDepart, int yDepart, int xArrivee, int yArrivee){
 
 
 
@@ -144,4 +129,3 @@ public static int[] deplacementPossible(String[][] plateau,int xDepart, int yDep
 
 
 
-}
