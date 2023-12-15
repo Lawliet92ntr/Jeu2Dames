@@ -46,10 +46,10 @@ public class Fonction {
             for (int col = 0; col < tab[ligne].length; col++) {
                  
                     if((ligne+col)%2==0){
-                        tab[ligne][col]=" □"; /*⛂⛀ */
+                        tab[ligne][col]=" ■"; /*⛂⛀ */
                     }
                     else{
-                        tab[ligne][col]=" ■";
+                        tab[ligne][col]=" □";
                     }
                 
             }
@@ -175,13 +175,13 @@ public class Fonction {
     }
 
 
-    public static List tousLesDeplacementsPossible(String[][] plateau, int xPion, int yPion){
-        List<Integer> depPossible=new ArrayList<Integer>();
+    public static List<List<int[]>> tousLesDeplacementsPossible(String[][] plateau, int xPion, int yPion){
+        List<List<int[]>> depPossible=new ArrayList<List<int[]>>();
 
         if(estVide(plateau, xPion-1, yPion+1)){
-            
+            depPossible.add(xPion-1);
         }
-
+ 
     }
     
 
