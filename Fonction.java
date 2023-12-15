@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fonction {
     
     public static void main(String[] args) {
@@ -19,10 +22,10 @@ public class Fonction {
                 
                 
                     if((ligne+col)%2==0){
-                        tab[ligne][col]=" ■"; /*⛂⛀ */
+                        tab[ligne][col]=" □"; /*⛂⛀ */
                     }
                     else{
-                        tab[ligne][col]=" □";
+                        tab[ligne][col]=" ■";
                     }
                 
                 
@@ -105,22 +108,24 @@ public class Fonction {
 
 }
 
-/*public static boolean prisePion(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee){
-    boolean possibleDePrendre=false;
 
-    if((plateau[xArrivee][yArrivee].equals(" ⛂")||plateau[xArrivee][yArrivee].equals(" ⛀") )&& ((plateau[xArrivee-1][yArrivee+1].equals(" ■")||plateau[xArrivee-1][yArrivee+1].equals(" □"))||() ){
-
-    }
-}
-*/
 
 public static boolean coordValides(int x, int y, String[][] plateau) {
     return x >= 0 && x < plateau.length && y >= 0 && y < plateau[0].length;
 }
 
-/*public static int[] deplacementPossible(String[][] plateau,int xPion, int yPion){
+public static List<String> deplacementPossible(String[][] plateau,int xPion, int yPion){
+    List<String> listeDeplacement;
 
-}*/
+    listeDeplacement= new ArrayList<String>();
+
+    List<String> list=new ArrayList<String>();
+
+    
+
+
+    return listeDeplacement;
+}
 
 
 
