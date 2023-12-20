@@ -3,38 +3,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fonction {
-    public static String ANSI_RESET = "\u001B[0m"; /* Couleur reset */
-    public static String ANSI_RED="\u001B[31m"; /* Couleur rouge */
-    public static String ANSI_BLUE="\u001B[34m";/* Couleur Bleu */
-    public static String PION_ROUGE=ANSI_RED+" ⛂"+ANSI_RESET;
-    public static String PION_BLEU=ANSI_BLUE+" ⛂"+ANSI_RESET;
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         String[][] plateau=creePlateau(10, 10);
         plateau=initPions(plateau);
         
-        deplacerPion(plateau, 3, 0, 5, 2);
-        deplacerPion(plateau, 3, 2, 4, 3);
-        System.out.println(peutPrendre(plateau, 5, 2));
+        
+        
+        // boucle temporaire pour tester
+        for(int boucletest=0 ; boucletest <20 ; boucletest++){    
         
         afficheTableau(plateau);
 
-        System.out.println("x1");
+            System.out.println("X1");
         int xDepart = scanner.nextInt();
-                System.out.println("y1");
+            System.out.println("Y1");
         int yDepart = scanner.nextInt();
-                System.out.println("x2"); 
+            System.out.println("X2");
         int xArrivee = scanner.nextInt();
-                System.out.println("y2");
+            System.out.println("Y2");
         int yArrivee = scanner.nextInt();
         
-        deplacerPion(plateau,xDepart,yDepart,xArrivee,yArrivee);
-        afficheTableau(plateau);
+            if(deplacementPossible(plateau, xDepart, yDepart, xArrivee, yArrivee)==true){
 
+            deplacerPion(plateau,xDepart,yDepart,xArrivee,yArrivee);
+            afficheTableau(plateau);
+            }
+            else if(deplacementPossible(plateau, xDepart, yDepart, xArrivee, yArrivee)==false){
+            System.out.println("Deplacement impossible");
+            }
+        }
+        
         
 
-        scanner.close();
+        
 
     }
 
@@ -46,10 +50,10 @@ public class Fonction {
             for (int col = 0; col < tab[ligne].length; col++) {
                  
                     if((ligne+col)%2==0){
-                        tab[ligne][col]=" ■"; /*⛂⛀ */
+                        tab[ligne][col]=" □"; /*⛂⛀ */
                     }
                     else{
-                        tab[ligne][col]=" □";
+                        tab[ligne][col]=" ■";
                     }
                 
             }
@@ -58,7 +62,9 @@ public class Fonction {
     }
 
     public static void afficheTableau(String[][] t){
-       
+        String ANSI_RESET = "\u001B[0m"; /* Couleur reset */
+        String ANSI_RED="\u001B[31m"; /* Couleur rouge */
+        String ANSI_BLUE="\u001B[34m";/* Couleur Bleu */
         
         
         System.out.println("_"+ANSI_RED+"Y"+ANSI_RESET+" 0 1 2 3 4 5 6 7 8 9");
@@ -78,7 +84,9 @@ public class Fonction {
 
 
     public static String[][] initPions(String[][] tab){
-        
+        String ANSI_RESET = "\u001B[0m"; /* Couleur reset */
+        String ANSI_RED="\u001B[31m"; /* Couleur rouge */
+        String ANSI_BLUE="\u001B[34m";/* Couleur Bleu */
         for (int ligne = 0; ligne < tab.length; ligne++) {
             
             for (int col = 0; col < tab[ligne].length; col++) {
@@ -86,12 +94,12 @@ public class Fonction {
                 
                     if((ligne+col)%2!=0 && ligne <4){
     
-                        tab[ligne][col]=PION_ROUGE; /* ⛂ ⛀ */
+                        tab[ligne][col]=ANSI_RED+" ⛂"+ANSI_RESET; /* ⛂ ⛀ */
                     
                     }
                     else if((ligne+col)%2!=0 && ligne >5){
                         
-                        tab[ligne][col]=PION_BLEU;
+                        tab[ligne][col]=ANSI_BLUE+" ⛀"+ANSI_RESET;
                     
                     }
                 
@@ -104,7 +112,7 @@ public class Fonction {
         return tab;
     }
 
-
+    
 
 /*
  * Fonction de deplacement : Younes
@@ -115,77 +123,70 @@ public class Fonction {
  */
 
 
-    public static void deplacerPion(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee) {
-        
-
-        
-            String transi=plateau[xArrivee][yArrivee];
-            plateau[xArrivee][yArrivee] = plateau[xDepart][yDepart];
-            plateau[xDepart][yDepart] = transi;
-        
-
-
-    }
-    public static boolean estVide(String[][] plateau, int x, int y){
-        boolean estVide=false;
-        if(plateau[x][y] == " □" || plateau[x][y] == " ■"){
-            estVide=true;
-        }
-
-        return estVide;
-    }
-
-    private static boolean deplacementPossible(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee) {
-        boolean peutSeDeplacer=true;
-        //faut creer la verif des coords
-        int deplacementX = Math.abs(xArrivee - xDepart);
-        int deplacementY = Math.abs(yArrivee - yDepart);
-        //pas de pion
-        if (estVide(plateau, xDepart, yDepart)) {
-            peutSeDeplacer= false;
-        }
-
-        //case n'est pas vide
-        else if (!estVide(plateau, xArrivee, yArrivee)) {
-            peutSeDeplacer =false;
-        }
-
-        else if (deplacementX != 1 || deplacementY != 1) {
-            peutSeDeplacer= false;
-        }
-        else if (xArrivee!=xDepart-1||(yArrivee!=yDepart+1&&yArrivee!=yDepart-1)){
-            peutSeDeplacer=false;
-        }
-
-        return peutSeDeplacer;
-    }
-
-    
-
-    
-
-    public static boolean peutPrendre(String[][] plateau,int xArrivee, int yArrivee){
-        boolean peutPrendre=false;
-
-        if(plateau[xArrivee][yArrivee]== PION_ROUGE && (estVide(plateau, xArrivee-1, yArrivee+1)|| estVide(plateau, xArrivee-1, yArrivee-1))){
-            peutPrendre=true;
-        }
-       
-        return peutPrendre;
-    }
-
-
-    public static List<List<int[]>> tousLesDeplacementsPossible(String[][] plateau, int xPion, int yPion){
-        List<List<int[]>> depPossible=new ArrayList<List<int[]>>();
-
-        if(estVide(plateau, xPion-1, yPion+1)){
-            depPossible.add(xPion-1);
-        }
- 
-    }
-    
+ public static void deplacerPion(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee) {
+   
+    String transi=plateau[xArrivee][yArrivee];
+    plateau[xArrivee][yArrivee] = plateau[xDepart][yDepart];
+    plateau[xDepart][yDepart] = transi;
 
 }
 
+    public static boolean deplacementPossible(String[][] plateau, int xDepart, int yDepart, int xArrivee, int yArrivee) {
+
+        int xDeplacement = Math.abs(xArrivee - xDepart);
+        int yDeplacement = Math.abs(yArrivee - yDepart);
+
+       // **************************
+       // créer la verif des coords
+       // **************************
+        
+        if         
+            //pas de pion
+            ((plateau[xDepart][yDepart] != " ⛀" && plateau[xDepart][yDepart] != " ⛂")
+            ||
+            //case n'est pas vide    
+            //(plateau[xArrivee][yArrivee] !=(" ■"||" □"))
+            //||
+            //1 distance
+            (xDeplacement != 1 || yDeplacement != 1))
+        
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+
+
+        /*
+        if(plateau[xDepart][yDepart] != " ⛀" && plateau[xDepart][yDepart] != " ⛂")
+            System.out.println("Il n'y a pas de pion");
+            return false;
+
+        if (plateau[xArrivee][yArrivee] != VIDE) {
+            System.out.println("La case n'est pas vide");
+            return false;
+        }
+
+        int xDeplacement = Math.abs(xArrivee - xDepart);
+        int yDeplacement = Math.abs(yArrivee - yDepart);
+
+        if (xDeplacement != 1 || yDeplacement != 1) {
+            return false;
+        }
+        */
+    }
+
+
+}
+
+
+
+
+
+
+
+    
 
 
