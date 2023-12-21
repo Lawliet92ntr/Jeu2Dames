@@ -13,6 +13,13 @@ public class F {
 
         int[][] plateau=creePlateau(10, 10);
         initPions(plateau);
+
+        
+        deplacer(plateau, 3, 2, 5, 4);
+        deplacement(plateau, 1, 6, 3, 5, 4);
+        
+        
+        
         afficheTableau(plateau);
         scanner.close();
 
@@ -105,20 +112,33 @@ public class F {
         return estVide;
     }
 
-   /*  public static boolean peutPrendre(int[][] plateau,int joueur,int xPion ,int yPion ,int xPrise,int yPrise){
+    public static boolean peutPrendre(int[][] plateau,int joueur,int xPion ,int yPion ,int xPrise,int yPrise){
         boolean peutPrendre=false;
 
-        if (joueur==1) {
+        if(joueur==1){
+            if((xPion==xPrise+1 && yPion ==yPrise-1) && estVide(plateau, xPrise-1, yPrise+1)){
+                peutPrendre=true;
+            }
             
+            else if((xPion==xPrise+1 && yPion ==yPrise+1) && estVide(plateau, xPrise-1, yPrise-1)){
+                peutPrendre=true;
+            }
         }
+        else{
+            if((xPion==xPrise-1 && yPion ==yPrise-1) && estVide(plateau, xPrise+1, yPrise+1)){
+                peutPrendre=true;
+            }
 
-
+            else if((xPion==xPrise-1 && yPion ==yPrise+1) && estVide(plateau, xPrise+1, yPrise-1)){
+                peutPrendre=true;
+            }
+        }
         return peutPrendre;
 
     }   
-*/
-    public static void verifPassageDame(int[][] plateau,int joueur,int x, int y){
-        switch (joueur) {
+
+    public static void verifPassageDame(int[][] plateau,int pion,int x, int y){
+        switch (pion) {
             case 1:
                 if (x==0 && plateau[x][y]==1) {
                     plateau[x][y]=11;
@@ -134,19 +154,53 @@ public class F {
         }
     }
 
+    public static void deplacer(int[][] plateau, int xDepart , int yDepart,int xArrive,int yArrive){
+        int pion = plateau[xDepart][yDepart];
+        plateau[xDepart][yDepart]=0;
+        plateau[xArrive][yArrive]=pion;
+        verifPassageDame(plateau, pion, xArrive, yArrive);
+    }
 
     public static void deplacement(int[][] plateau,int joueur,int xDepart,int yDepart, int xArrive , int yArrive){
         int pion = plateau[xDepart][yDepart];
         if(joueur==1){
+
             if(xArrive<xDepart || pion ==11){ //verifie si le joueur avance du bon coté 
-                //verifier que le déplacement est en diagonale de 1
-                    //verifier si il y a un pion ennemi
-                        //verifier si le pion peut etre pris
-                            //faire le déplacement/prise
+
+                
+                if(estVide(plateau, xArrive, yArrive)){
+                    if ((xArrive==xDepart-1 && yArrive==yDepart-1)||(xArrive==xDepart-1 && yArrive==yDepart+1)) {//verifier que le déplacement est en diagonale de 1
+
+                        deplacer(plateau,xDepart,yDepart,xArrive,yArrive);
+                        
+                    }
+                    else{
+
+                        System.out.println("Le déplacement doit etre de 1 en diagonale !");
+
+                    }
+                }
+                else if(plateau[xArrive][yArrive]==2 || plateau[xArrive][yArrive]==22){//verifier si il y a un pion ennemi
+
+                        if( peutPrendre(plateau, joueur, xDepart, yDepart, xArrive, yArrive)){//verifier si le pion peut etre pris
+                            System.out.println("peut etre pris");
+                            
+                        }
+                    }
+
+                else if(plateau[xArrive][yArrive]==1 || plateau[xArrive][yArrive]==11){ 
+
+                    System.out.println("pion allié");
+
+                }           
             }
+            else{
+
+                System.out.println("Le pion ne peut pas aller dans ce sens !");
+
+            }
+        
         }
+        
     }
-
-
-
 }
