@@ -1,13 +1,13 @@
 import java.util.Scanner;
 
 public class F {
-    public static String ANSI_RESET = "\u001B[0m"; /* Couleur reset */
-    public static String ANSI_RED="\u001B[31m"; /* Couleur rouge */
-    public static String ANSI_BLUE="\u001B[34m";/* Couleur Bleu */
-    public static String PION_ROUGE=ANSI_RED+" ⛂"+ANSI_RESET;
-    public static String PION_BLEU=ANSI_BLUE+" ⛂"+ANSI_RESET;
-    public static String DAME_ROUGE=ANSI_RED+" ⛁"+ANSI_RESET;
-    public static String DAME_BLEU=ANSI_BLUE+" ⛁"+ANSI_RESET;
+    public static final String ANSI_RESET = "\u001B[0m"; /* Couleur reset */
+    public static final String ANSI_RED="\u001B[31m"; /* Couleur rouge */
+    public static final String ANSI_BLUE="\u001B[34m";/* Couleur Bleu */
+    public static final String PION_ROUGE=ANSI_RED+" ⛂"+ANSI_RESET;
+    public static final String PION_BLEU=ANSI_BLUE+" ⛂"+ANSI_RESET;
+    public static final String DAME_ROUGE=ANSI_RED+" ⛁"+ANSI_RESET;
+    public static final String DAME_BLEU=ANSI_BLUE+" ⛁"+ANSI_RESET;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
