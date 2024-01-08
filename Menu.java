@@ -60,9 +60,20 @@ class Menu {
 
 
     public static void appelJeu(){
-        int[][] plateau;
-        plateau =Fonctions.creePlateau(10,10);
-        Fonctions.initPions(plateau);
+        int[][] plateau={
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,2,0,2,0,2,0},
+            {0,0,0,11,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+        };
+        //plateau =Fonctions.creePlateau(10,10);
+        //Fonctions.initPions(plateau);
         Fonctions.jeu(plateau, Fonctions.score);
     }
 

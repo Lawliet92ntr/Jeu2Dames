@@ -31,7 +31,7 @@ public class Fonctions {
             
             System.out.println(score[0]);
             System.out.println(score[1]);
-            if (joueur==1 && etat ==0) {
+            if (joueur==1 && (etat ==0 || etat==2)) {
                 joueur=2;
                 
             }
@@ -174,18 +174,15 @@ public class Fonctions {
             else{
                         System.out.println("Saisie incorrecte veuillez réessayer !");
                     } 
-                    System.out.println(!peutBouger(plateau, joueur,x, y));
+                    
         }while(!estAllie(plateau, joueur, x, y) || !peutBouger(plateau, joueur,x, y) );
 
         if(!coupForcé.isEmpty() ){
             
             for (int i =0;i<coupForcé.size() && peutContinuer;i++) {
                 if(coupForcé.get(i)[0]==x && coupForcé.get(i)[1]==y){
-                    
                     peutContinuer=false;
                 }
-                System.out.println(coupForcé.get(i)[0]);
-                System.out.println(coupForcé.get(i)[1]);
 
             }
 
@@ -214,17 +211,14 @@ public class Fonctions {
                     else{
                         System.out.println("Saisie incorrecte veuillez réessayer !");
                     } 
+                    System.out.println(estDame(plateau, joueur, x, y));
                     if(estDame(plateau, joueur, x, y)){
                         etatDuDeplacement=deplacementDame(plateau, joueur, x, y, xa, ya);
                     }
                     else{
                         etatDuDeplacement= deplacementPion(plateau, joueur, x,y,xa,ya);
                     }
-                    System.out.println(etatDuDeplacement);
-                    System.out.println((!peutContinuer && coupForcé.isEmpty()));
-                    System.out.println((!peutContinuer && ((x-xa)!=2 && joueur==1 && etatDuDeplacement!=1)));
-                    System.out.println((!peutContinuer && ((x-xa)!=-2 && joueur==2 && etatDuDeplacement!=1)));
-            }while((!peutContinuer && coupForcé.isEmpty()) || etatDuDeplacement==-2|| etatDuDeplacement==-1 || (!peutContinuer && ((x-xa)!=2 && joueur==1 && etatDuDeplacement!=1))||(!peutContinuer && ((x-xa)!=-2 && joueur==2 && etatDuDeplacement!=1)));
+            }while((!peutContinuer && coupForcé.isEmpty()) || etatDuDeplacement==-2|| etatDuDeplacement==-1 || (!peutContinuer && ((x-xa)!=2 && joueur==1 && etatDuDeplacement!=1) && etatDuDeplacement!=2)||(!peutContinuer && ((x-xa)!=-2 && joueur==2 && etatDuDeplacement!=1)&& etatDuDeplacement!=2));
         }
         
        
@@ -453,6 +447,69 @@ public class Fonctions {
 
         return listeEnnemi;
     }
+    public static List<int[]> listeEnnemieDame(int[][] plateau,int joueur, int x, int y) {
+        
+
+        boolean existeEnnemi=false;
+        List<int[]> listeEnnemi=new ArrayList<int[]>(); 
+        int[] a= new int[2]; 
+        // Diagonale haut-gauche
+        for (int ligne = x - 1, colonne = y - 1; ligne >= 0 && colonne >= 0 && !existeEnnemi; ligne--, colonne--) {
+            
+            if(verifEnnemiSimple(plateau, joueur, ligne, colonne) && !estVide(plateau,ligne,colonne) && (movementValide(plateau, ligne-1, colonne-1)&& estVide(plateau,ligne-1,colonne-1) )){
+                
+                existeEnnemi =true;
+                a[0]=ligne;
+                a[1]=colonne;
+                listeEnnemi.add(a);
+                
+            } 
+        }
+
+        // Diagonale haut-droite
+        for (int ligne = x - 1, colonne = y + 1; ligne >= 0 && colonne < plateau[0].length && !existeEnnemi; ligne--, colonne++) {
+            
+            if(verifEnnemiSimple(plateau, joueur, ligne, colonne) && !estVide(plateau,ligne,colonne) && (movementValide(plateau, ligne-1, colonne+1)&& estVide(plateau,ligne-1,colonne+1) )){
+                
+                existeEnnemi =true;
+                a[0]=ligne;
+                a[1]=colonne;
+                listeEnnemi.add(a);
+                
+            }
+            
+        }
+
+        // Diagonale bas-gauche
+        for (int ligne = x + 1, colonne = y - 1; ligne < plateau.length && colonne >= 0 && !existeEnnemi; ligne++, colonne--) {
+            if(verifEnnemiSimple(plateau, joueur, ligne, colonne) && !estVide(plateau,ligne,colonne) && (movementValide(plateau, ligne+1, colonne-1)&& estVide(plateau,ligne+1,colonne-1) )){
+
+            
+                existeEnnemi =true;
+                a[0]=ligne;
+                a[1]=colonne;
+                listeEnnemi.add(a);
+                
+            }
+           
+        }
+
+        // Diagonale bas-droite
+        for (int ligne = x + 1, colonne = y + 1; ligne < plateau.length && colonne < plateau[0].length && !existeEnnemi; ligne++, colonne++) {
+            
+           if(verifEnnemiSimple(plateau, joueur, ligne, colonne) && !estVide(plateau,ligne,colonne)&& (movementValide(plateau, ligne+1, colonne+1)&& estVide(plateau,ligne+1,colonne+1) )){
+                
+                existeEnnemi =true;
+                a[0]=ligne;
+                a[1]=colonne;
+                listeEnnemi.add(a);
+                
+            }
+            
+        }
+
+        return listeEnnemi;
+    }
    
 /*Verifie chaque pion et renvoie leurs coordonées si ils peuvent prendre un pion renvoie une liste vide si il n'y pas de prise possible */
     public static List<int[]> listeCoupForce(int[][]plateau,int joueur){
@@ -460,14 +517,27 @@ public class Fonctions {
         for (int x = 0; x < plateau.length; x++) {
             for (int y = 0; y < plateau[x].length; y++) {
                  if(estAllie(plateau, joueur, x, y) ){
-                    if( !listeEnnemie(plateau, joueur, x, y).isEmpty()){
+                    if(estDame(plateau, joueur, x, y)){
+                        if(!listeEnnemieDame(plateau, joueur, x, y).isEmpty()){
+                        
+                            int[] coordonnee={x,y};
+                            listeCoup.add(coordonnee);
+                        
+                        }
+                    }
+                }
+                    else{
+
                     
-                        int[] coordonnee={x,y};
-                        listeCoup.add(coordonnee);
+                        if( !listeEnnemie(plateau, joueur, x, y).isEmpty()){
+                        
+                            int[] coordonnee={x,y};
+                            listeCoup.add(coordonnee);
 
                     }
                 }
             }
+            
         
            
         }
@@ -505,7 +575,7 @@ public class Fonctions {
         // Diagonale haut-gauche
         
             
-            if((movementValide(plateau, x-1, y-1) &&verifEnnemiSimple(plateau, joueur, x-1, y-1) && !estVide(plateau,x-1, y-1) && estVide(plateau,x-1, y-1) )){
+            if((movementValide(plateau, x-1, y-1) &&verifEnnemiSimple(plateau, joueur, x-1, y-1) && !estVide(plateau,x-1, y-1) && peutPrendre(plateau,joueur,x,y,x-1, y-1) )){
                 
                 existeEnnemi =true;
                 
@@ -515,7 +585,7 @@ public class Fonctions {
         // Diagonale haut-droite
         
             
-            if((movementValide(plateau, x-1, y+1)&& verifEnnemiSimple(plateau, joueur, x-1, y+1) && !estVide(plateau,x-1, y+1) &&  estVide(plateau,x-1, y+1) )){
+            if((movementValide(plateau, x-1, y+1)&& verifEnnemiSimple(plateau, joueur, x-1, y+1) && !estVide(plateau,x-1, y+1) &&  peutPrendre(plateau,joueur,x,y,x-1, y+1) )){
                 
                 existeEnnemi =true;
                 
@@ -525,7 +595,7 @@ public class Fonctions {
 
         // Diagonale bas-gauche
        
-            if((movementValide(plateau, x+1, y-1)&& verifEnnemiSimple(plateau, joueur, x+1, y-1) && !estVide(plateau,x+1, y-1) &&  estVide(plateau,x+1, y-1) )){
+            if((movementValide(plateau, x+1, y-1)&& verifEnnemiSimple(plateau, joueur, x+1, y-1) && !estVide(plateau,x+1, y-1) &&  peutPrendre(plateau,joueur,x,y,x+1, y-1) )){
 
             
                 existeEnnemi =true;
@@ -537,7 +607,7 @@ public class Fonctions {
         // Diagonale bas-droite
         
             
-           if((movementValide(plateau, x+1, y+1)&&verifEnnemiSimple(plateau, joueur, x+1, y+1) && !estVide(plateau,x+1, y+1)&&  estVide(plateau,x+1, y+1) )){
+           if((movementValide(plateau, x+1, y+1)&&verifEnnemiSimple(plateau, joueur, x+1, y+1) && !estVide(plateau,x+1, y+1)&&  peutPrendre(plateau,joueur,x,y,x+1, y+1) )){
                 
                 existeEnnemi =true;
                 
@@ -556,7 +626,34 @@ public class Fonctions {
         updateScore(plateau);
     }
 
-/*Renvoie 0 si le déplacement est fini, 1 si le déplacement peut continuer (rafle) et -1 si le déplacement est impossible*/
+//Fonction qui renvoie vrai si la prise est une prise en arriere
+    public static boolean estPriseArriere(int[][] plateau, int joueur, int x,int y, int xa, int ya){
+        boolean estPriseArriere=false;
+        
+        switch (joueur) {
+            case 1:
+                if((xa-x)>0){
+                    estPriseArriere=true;
+                }
+                break;
+            case 2:
+                
+                if((xa-x)<0){
+                    estPriseArriere=true;
+                }
+                break;
+            default:
+                break;
+        }
+
+
+
+
+        return estPriseArriere;
+    }
+
+
+/*Renvoie 0 si le déplacement est fini, 1 si le déplacement peut continuer (rafle) ,2 si la prise est en arriere et -1 si le déplacement est impossible*/
     public static int deplacementPion(int[][] plateau,int joueur,int xDepart,int yDepart, int xArrive , int yArrive){
         
         int nbCase=Math.abs(xArrive - xDepart);
@@ -566,21 +663,26 @@ public class Fonctions {
             
                 switch (nbCase) {
                     case 1:
-                        
-                        if(estVide(plateau, xArrive, yArrive)){
-                            if ((xArrive==xDepart-1 && yArrive==yDepart-1)||(xArrive==xDepart-1 && yArrive==yDepart+1)) {//verifier que le déplacement est en diagonale de 1
-                                deplacer(plateau,xDepart,yDepart,xArrive,yArrive,false);
-                                etatDeplacement=0;
-                            }
-                            else{
-                                System.out.println("Attention le déplacement n'est pas en diagonale !");
-                                etatDeplacement=-1;
-
-                            }
+                        if(verifEnnemi(plateau, joueur, xDepart, yDepart)){
+                            System.out.println("Attention vous devez prendre un pion !");
+                            etatDeplacement=-1;
                         }
                         else{
-                            System.out.println("Attention la case d'arrivé n'est pas vide !");
-                            etatDeplacement=-1;
+                            if(estVide(plateau, xArrive, yArrive)){
+                                if ((xArrive==xDepart-1 && yArrive==yDepart-1)||(xArrive==xDepart-1 && yArrive==yDepart+1)) {//verifier que le déplacement est en diagonale de 1
+                                    deplacer(plateau,xDepart,yDepart,xArrive,yArrive,false);
+                                    etatDeplacement=0;
+                                }
+                                else{
+                                    System.out.println("Attention le déplacement n'est pas en diagonale !");
+                                    etatDeplacement=-1;
+
+                                }
+                            }
+                            else{
+                                System.out.println("Attention la case d'arrivé n'est pas vide !");
+                                etatDeplacement=-1;
+                            }
                         }
                         break;
                     
@@ -593,15 +695,21 @@ public class Fonctions {
                                 priseEnnemi(plateau, xEnnemi, yEnnemi);
                                 deplacer(plateau, xDepart, yDepart, xArrive, yArrive,true);
                                 
+                        
                                 if(verifEnnemi(plateau, joueur, xArrive, yArrive)){
+                                    afficheTableau(plateau);
                                     System.out.println("Vous pouvez continuer de prendre des pions !");
                                     etatDeplacement=1;
-                                    afficheTableau(plateau);
+                                    
+                                }
+                                else if(estPriseArriere(plateau, joueur, xDepart, yDepart, xArrive, yArrive)){
+                                    etatDeplacement=2;
                                 }
                                 else{
                                     
                                     etatDeplacement=0;
                                 }
+                                
                             }
                         }
                         else{
@@ -624,20 +732,26 @@ public class Fonctions {
             
                     switch (nbCase) {
                         case 1:
-                            if(estVide(plateau, xArrive, yArrive)){
-                                if ((xArrive==xDepart+1 && yArrive==yDepart-1)||(xArrive==xDepart+1 && yArrive==yDepart+1)) {//verifier que le déplacement est en diagonale de 1
-                                    deplacer(plateau,xDepart,yDepart,xArrive,yArrive,false);
-                                    etatDeplacement=0;
-                                }
-                                else{
-                                    System.out.println("Attention le déplacement n'est pas en diagonale !");
-                                    etatDeplacement=-1;
-
-                                }
+                            if(verifEnnemi(plateau, joueur, xDepart, yDepart)){
+                                System.out.println("Attention vous devez prendre un pion !");
+                                etatDeplacement=-1;
                             }
                             else{
-                                System.out.println("Attention la case d'arrivé n'est pas vide !");
-                                etatDeplacement=-1;
+                                if(estVide(plateau, xArrive, yArrive)){
+                                    if ((xArrive==xDepart+1 && yArrive==yDepart-1)||(xArrive==xDepart+1 && yArrive==yDepart+1)) {//verifier que le déplacement est en diagonale de 1
+                                        deplacer(plateau,xDepart,yDepart,xArrive,yArrive,false);
+                                        etatDeplacement=0;
+                                    }
+                                    else{
+                                        System.out.println("Attention le déplacement n'est pas en diagonale !");
+                                        etatDeplacement=-1;
+
+                                    }
+                                }
+                                else{
+                                    System.out.println("Attention la case d'arrivé n'est pas vide !");
+                                    etatDeplacement=-1;
+                                }
                             }
                             break;
                         
@@ -651,9 +765,10 @@ public class Fonctions {
                                     deplacer(plateau, xDepart, yDepart, xArrive, yArrive,true);
                                     
                                     if(verifEnnemi(plateau, joueur, xArrive, yArrive)){
+                                        afficheTableau(plateau);
                                         System.out.println("Vous pouvez continuer de prendre des pions !");
                                         etatDeplacement=1;
-                                        afficheTableau(plateau);
+                                        
                                     }
                                     else{
                                         
@@ -707,7 +822,7 @@ public class Fonctions {
         int gaucheDroite=0,hautBas=0;
         int etat=-2;
         int x=xd,y=yd;
-
+        boolean unePriseAeteFaite=false;
         boolean deplacementPeutContinuer=true;
         
         if(estVide(plateau, xa, ya) ){
@@ -724,24 +839,33 @@ public class Fonctions {
                             gaucheDroite=1;
                         }
                         
-                        if (!estAllie(plateau, joueur, x, y) && !estVide(plateau, x, y) && !peutPrendre(plateau, joueur, x-hautBas, y-gaucheDroite, x, y)){
+                        
+
+                        if (!estAllie(plateau, joueur, x, y) && !estVide(plateau, x, y) && !peutPrendre(plateau, joueur, x-hautBas, y-gaucheDroite, x, y) ){
                             deplacementPeutContinuer=false;
                             System.out.println("Attention il est impossible de faire ce coup !");
                             etat=-1;
                         }
                         else if(!estAllie(plateau, joueur, x, y) && !estVide(plateau, x, y) && peutPrendre(plateau, joueur, x-hautBas, y-gaucheDroite, x, y)){
                             priseEnnemi(plateau, x, y);
+                            unePriseAeteFaite=true;
                         }
                         
                         
                     }while(x!=xa && deplacementPeutContinuer);
                     if(deplacementPeutContinuer){
-                        deplacer(plateau, xd, yd, xa, ya,true);
-                        if(verifEnnemiDame(plateau, joueur, xa, ya)){
+                        
+                        if(verifEnnemiDame(plateau, joueur, xd, yd) && !unePriseAeteFaite){
+                            etat=-1;
+                            System.out.println("Attention vous devez prendre un pion !");
+                        }
+                        else if(verifEnnemiDame(plateau, joueur, xa, ya) && !unePriseAeteFaite){
+                            deplacer(plateau, xd, yd, xa, ya,false);
                             etat=1;
-                            System.out.println("Vous pouvez continuer de prendre de pions !");
+                            System.out.println("Vous pouvez continuer de prendre des pions !");
                         }
                         else{
+                            deplacer(plateau, xd, yd, xa, ya,false);
                             etat=0;
                         }
                     }
@@ -758,6 +882,7 @@ public class Fonctions {
                             y++;
                             gaucheDroite=1;
                         }
+                       
                         if (!estAllie(plateau, joueur, x, y) && !estVide(plateau, x, y) && !peutPrendre(plateau, joueur, x-hautBas, y-gaucheDroite, x, y)){
                             deplacementPeutContinuer=false;
                             System.out.println("Attention il est impossible de faire ce coup !");
@@ -765,6 +890,7 @@ public class Fonctions {
                         }
                         else if(!estAllie(plateau, joueur, x, y) && !estVide(plateau, x, y) && peutPrendre(plateau, joueur, x-hautBas, y-gaucheDroite, x, y)){  
                             priseEnnemi(plateau,x, y);
+                            unePriseAeteFaite=true;
                             
                         }
                             
@@ -772,12 +898,18 @@ public class Fonctions {
                     
                     }while(x!=xa && deplacementPeutContinuer);
                     if(deplacementPeutContinuer){
-                        deplacer(plateau, xd, yd, xa, ya, true);
-                        if(verifEnnemiDame(plateau, joueur, xa, ya)){
-                            System.out.println("Vous pouvez continuer de prendre de pions !");
+                        System.out.println(!unePriseAeteFaite);
+                        if(verifEnnemiDame(plateau, joueur, xd, yd) && !unePriseAeteFaite){
+                            etat=-1;
+                            System.out.println("Attention vous devez prendre un pion !");
+                        }
+                        else if(verifEnnemiDame(plateau, joueur, xa, ya) && unePriseAeteFaite){
+                            deplacer(plateau, xd, yd, xa, ya,false);
                             etat=1;
+                            System.out.println("Vous pouvez continuer de prendre des pions !");
                         }
                         else{
+                            deplacer(plateau, xd, yd, xa, ya,false);
                             etat=0;
                         }
                     }
@@ -790,12 +922,7 @@ public class Fonctions {
 
         return etat;
     }
-        //verifier que l'arrivé est vide 
-            //verifier que c'est en diagonale
-                //verifier qu'il n'ya pas d'ennemi sur le chemin 
-                    //si il y un ennemi et que c'est vide derriere prendre le pino
-                        //verifier que c'est possible de faire une rafle
-
+   
 //Fonction qui verifie chaque diagonale de la dame et renvoie vrai si il y a un ennemi 
 
     public static Boolean verifEnnemiDame(int[][] plateau,int joueur, int x, int y) {
