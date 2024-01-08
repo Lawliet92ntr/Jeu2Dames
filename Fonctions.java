@@ -182,6 +182,8 @@ public class Fonctions {
             for (int i =0;i<coupForcé.size() && peutContinuer;i++) {
                 if(coupForcé.get(i)[0]==x && coupForcé.get(i)[1]==y){
                     peutContinuer=false;
+                    System.out.println(coupForcé.get(i)[0]);
+                    System.out.println(coupForcé.get(i)[1]);
                 }
 
             }
@@ -516,24 +518,20 @@ public class Fonctions {
         List<int[]> listeCoup=new ArrayList<int[]>();
         for (int x = 0; x < plateau.length; x++) {
             for (int y = 0; y < plateau[x].length; y++) {
-                 if(estAllie(plateau, joueur, x, y) ){
+                if(estAllie(plateau, joueur, x, y) ){
                     if(estDame(plateau, joueur, x, y)){
                         if(!listeEnnemieDame(plateau, joueur, x, y).isEmpty()){
-                        
                             int[] coordonnee={x,y};
                             listeCoup.add(coordonnee);
-                        
                         }
                     }
-                }
                     else{
-
-                    
                         if( !listeEnnemie(plateau, joueur, x, y).isEmpty()){
                         
                             int[] coordonnee={x,y};
                             listeCoup.add(coordonnee);
 
+                        }
                     }
                 }
             }
@@ -764,16 +762,21 @@ public class Fonctions {
                                     priseEnnemi(plateau, xEnnemi, yEnnemi);
                                     deplacer(plateau, xDepart, yDepart, xArrive, yArrive,true);
                                     
+                            
                                     if(verifEnnemi(plateau, joueur, xArrive, yArrive)){
                                         afficheTableau(plateau);
                                         System.out.println("Vous pouvez continuer de prendre des pions !");
                                         etatDeplacement=1;
                                         
                                     }
+                                    else if(estPriseArriere(plateau, joueur, xDepart, yDepart, xArrive, yArrive)){
+                                        etatDeplacement=2;
+                                    }
                                     else{
                                         
                                         etatDeplacement=0;
                                     }
+                                    
                                 }
                             }
                             else{
