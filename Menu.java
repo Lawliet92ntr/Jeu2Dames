@@ -4,7 +4,8 @@ class Menu {
     public static String[] pseudo = new String[2];
     public static void gMenu() {
         Scanner scanner = new Scanner(System.in);
-        int choix;
+        String choix="";
+        int choix2=0;
         
 
         do {
@@ -14,13 +15,13 @@ class Menu {
             System.out.println("3. Quitter");
             System.out.println("==========================");
             System.out.print("Entrez votre choix : ");
-            choix = scanner.nextInt();
-            scanner.nextLine();
+            choix = scanner.nextLine();
+            choix2 = Character.getNumericValue(choix.charAt(0));
             System.out.println();
             System.out.println();
 
 
-            switch (choix) {
+            switch (choix2) {
                 case 1:
                     System.out.println("Lancement d'une nouvelle partie contre un joueur...");
                     System.out.println();
@@ -51,8 +52,8 @@ class Menu {
                     System.out.println("Choix invalide. Veuillez réessayer.");
                     break;
             }
-
-        } while (choix != 3);
+            
+        } while (choix.length() !=1 || !Character.isDigit(choix.charAt(0)) || choix2!=3);
 
         scanner.close();
     }
@@ -60,20 +61,9 @@ class Menu {
 
 
     public static void appelJeu(){
-        int[][] plateau={
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,2,0,2,0,2,0},
-            {0,0,0,11,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-        };
-        //plateau =Fonctions.creePlateau(10,10);
-        //Fonctions.initPions(plateau);
+        int[][] plateau;
+        plateau =Fonctions.creePlateau(10,10);
+        Fonctions.initPions(plateau);
         Fonctions.jeu(plateau, Fonctions.score);
     }
 
