@@ -7,10 +7,10 @@ public class Fonctions {
     public static final String ANSI_RED="\u001B[31m"; /* Couleur rouge */
     public static final String ANSI_BLUE="\033[0;34m";/* Couleur Bleu */
     public static final String ANSI_GREEN = "\033[1;32m";/* Couleur Vert */
-    public static final String PION_ROUGE=ANSI_RED+" 0"+ANSI_RESET; /*⛂ ⛁*/
-    public static final String PION_BLEU=ANSI_BLUE+" 0"+ANSI_RESET;
-    public static final String DAME_ROUGE=ANSI_RED+" 2"+ANSI_RESET;
-    public static final String DAME_BLEU=ANSI_BLUE+" 2"+ANSI_RESET;
+    public static final String PION_ROUGE=ANSI_RED+" ⛂"+ANSI_RESET; /*⛂ ⛁      ATTENTION REMPLACER LES PIONS PAR 0 1 2 SI CES CARACTERES NE S'AFFICHENT PAS !!!!!!!*/ 
+    public static final String PION_BLEU=ANSI_BLUE+" ⛂"+ANSI_RESET;
+    public static final String DAME_ROUGE=ANSI_RED+" ⛁"+ANSI_RESET;
+    public static final String DAME_BLEU=ANSI_BLUE+" ⛁"+ANSI_RESET;
 
     public static int[] score={20,20};
     public static int[][] deplacements={{1,-1},{1,1},{-1,-1},{-1,1}};
