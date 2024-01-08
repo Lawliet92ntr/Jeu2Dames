@@ -27,12 +27,14 @@ class Menu {
                     System.out.println();
                     System.out.println();
                     System.out.println();
+                    do{
                     System.out.println("Entrez le pseudo du joueur Bleu :");
                     pseudo[0]=scanner.nextLine();
                     System.out.println("Entrez le pseudo du joueur Rouge :");
                     pseudo[1]=scanner.nextLine();
                     System.out.println();
                     System.out.println();
+                    }while(pseudo[0].length()==0 || pseudo[1].length()==0);
                     appelJeu();
                     break;
 
